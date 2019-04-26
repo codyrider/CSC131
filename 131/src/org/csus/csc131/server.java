@@ -72,7 +72,7 @@ public class server
         {
              
             //Create a new user list to be filled by the database file 
-            users = new ArrayList<User>();
+            users = new ArrayList<User>(); 
              
             String line = "";
              
