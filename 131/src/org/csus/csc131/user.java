@@ -6,7 +6,7 @@ public class user {
 	
 	private enum status {LOST, FOUND};
 	private int userID;
-	private int tagID;
+	private int tagID; //should this be a tag class?
 	private status tagStatus;
 	private String userName; //do we need this and userID??
 
