@@ -87,7 +87,7 @@ public class server
                 if (tokens.length > 0) 
                 {
                     //Create a new user object and fill with user information from database file
-                	User user = new User(Long.parseLong(tokens[USER_ID_IDX]), Long.parseLong(tokens[TAG_ID_IDX]), tokens[TAG_STATUS_IDX]);
+                	User user = new User(Integer.parseInt(tokens[USER_ID_IDX]), Integer.parseInt(tokens[TAG_ID_IDX]), tokens[TAG_STATUS_IDX]);
                     //Add the created user to the users list
                 	users.add(user);
                 }
@@ -120,7 +120,7 @@ public class server
     }
     
     //Adds a tag to a user in the database
-	public static void addTag(long userID, long tagID)
+	public static void addTag(int userID, int tagID)
 	{
 		//Read user data in from the database file
 		readCsvFile();
@@ -195,22 +195,47 @@ public class server
         writeCsvFile();
 	}
 	
-	public void setFound(int userID)
+	public void tagFound(int tagID, String GPS)
 	{
+		//Read user data in from the database file
+		readCsvFile();
+		
+		//Iterate through the user list to find the correct user that is assigned the tagID
+		for (User user : users) 
+        {
+			//If a user is located with the tagID, set the tag status to found and notify the user
+            if(user.getTagID() == tagID && user.getTagStatus() == )
+            {
+            	user.setFound();
+            	//Represents the notification of the user until further implementation
+            	System.out.println("Tag " + user.getTagID + " was found at GPS coordinates: " + GPS);
+            }
+        }
+        
+		//Write the data to the database file
+        writeCsvFile();
+	}
+	
+	public boolean userExists(int userID)
+	{
+		//Return value for the existence of a user in the database
+		boolean exists = false;
 		//Read user data in from the database file
 		readCsvFile();
 		
 		//Iterate through the user list to find the correct user
 		for (User user : users) 
         {
-			//If ther user is located set the tag status to found
+			//If the user is found in the data base exists becomes true
             if(user.getUserID() == userID)
             {
-            	user.setFound();
+            	exists = true;
             }
         }
         
 		//Write the data to the database file
         writeCsvFile();
+        
+        return exists;
 	}
 }

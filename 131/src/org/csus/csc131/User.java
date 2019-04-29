@@ -1,16 +1,26 @@
+package org.csus.csc131;
 /*
  * User class for storing user information
  */
 
-public class user {
+public class User {
 	
-	private enum status {LOST, FOUND};
 	private int userID;
 	private int tagID; //should this be a tag class?
-	private status tagStatus;
+	private String tagStatus;
 	private String userName; //do we need this and userID??
 
 	
+	public User(int userID) {
+		this.userID = userID;
+	}
+
+	public User(int userID, int tagID, String tagStatus) {
+		this.userID = userID;
+		this.tagID = tagID;
+		this.tagStatus = tagStatus;
+	}
+
 	public int getUserID() {
 		return userID;
 	}
@@ -19,7 +29,7 @@ public class user {
 		return tagID;
 	}
 	
-	public status getTagStatus() {
+	public String getTagStatus() {
 		return tagStatus;
 	}
 	
@@ -28,11 +38,11 @@ public class user {
 	}
 	
 	public void setLost() {
-		tagStatus = status.LOST;
+		tagStatus = "lost";
 	}	
 	
 	public void setFound() {
-		tagStatus = status.FOUND;
+		tagStatus = "found";
 	}
 	
 	public void setTagID(int tag) {
