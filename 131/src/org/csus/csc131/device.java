@@ -74,6 +74,6 @@ public class device{
 		* send GPS coordinate and tagID to the server to update tag found
 		*/
 		public void tagFound() {
-			ser.updateTag(coordinateGenerator(), tag.getTagID());
+			ser.tagFound(coordinateGenerator(), tag.getTagID());
 		}
 }
