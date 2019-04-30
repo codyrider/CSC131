@@ -1,4 +1,7 @@
+package org.csus.csc131;
+
 import java.util.concurrent.ThreadLocalRandom;
+import java.lang.String;
 /**
  * A class set device
  * Use userID to contact server and add, check or set
@@ -10,8 +13,8 @@ public class device{
 	
 	private int userID;
 	private server ser;
-	private user tag;
-	private String[] coordinate = new String[2];
+	private User tag;
+	private double[] coordinate = new double[2];
 	
 	
 		/**
@@ -62,9 +65,9 @@ public class device{
 		* store them in a double array
 		* return the array
 		*/
-		public String[] coordinateGenerator() {
-			coordinate[0] = Double.toString(ThreadLocalRandom.current().nextDouble(-85.0, 86.0));
-			coordinate[1] = Double.toString(ThreadLocalRandom.current().nextDouble(-180.0, 181.0));
+		public double[] coordinateGenerator() {
+			coordinate[0] = ThreadLocalRandom.current().nextDouble(-85.0, 86.0);
+			coordinate[1] = ThreadLocalRandom.current().nextDouble(-180.0, 181.0);
 			
 			return coordinate;
 		}
@@ -73,7 +76,7 @@ public class device{
 		* tag.getTagID() from user class
 		* send GPS coordinate and tagID to the server to update tag found
 		*/
-		public void deviceTagFound() {
+		public void tagFound() {
 			ser.tagFound(tag.getTagID(), coordinateGenerator());
 		}
 }

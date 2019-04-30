@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.lang.String;
 
 //Implement iterator, factory method, observer, singleton
 
@@ -195,7 +196,7 @@ public class server
         writeCsvFile();
 	}
 	
-	public void tagFound(int tagID, String [] GPS)
+	public void tagFound(int tagID, double[] GPS)
 	{
 		//Read user data in from the database file
 		readCsvFile();
@@ -204,11 +205,11 @@ public class server
 		for (User user : users) 
         {
 			//If a user is located with the tagID, set the tag status to found and notify the user
-            if(user.getTagID() == tagID && user.getTagStatus() == )
+            if(user.getTagID() == tagID && user.getTagStatus() == "lost")
             {
             	user.setFound();
             	//Represents the notification of the user until further implementation
-            	System.out.println("Tag " + user.getTagID + " was found at GPS coordinates: " + GPS);
+            	System.out.println("Tag " + user.getTagID() + " was found at GPS coordinates: " + GPS);
             }
         }
         
