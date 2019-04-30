@@ -195,7 +195,7 @@ public class server
         writeCsvFile();
 	}
 	
-	public void tagFound(int tagID, String GPS)
+	public void tagFound(int tagID, String [] GPS)
 	{
 		//Read user data in from the database file
 		readCsvFile();
