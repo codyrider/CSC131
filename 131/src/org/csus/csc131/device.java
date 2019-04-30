@@ -11,7 +11,7 @@ public class device{
 	private int userID;
 	private server ser;
 	private user tag;
-	private doube[] coordinate = new double[2];
+	private String[] coordinate = new String[2];
 	
 	
 		/**
@@ -62,9 +62,9 @@ public class device{
 		* store them in a double array
 		* return the array
 		*/
-		public double[] coordinateGenerator() {
-			coordinate[0] = ThreadLocalRandom.current().nextDouble(-85.0, 86.0);
-			coordinate[1] = ThreadLocalRandom.current().nextDouble(-180.0, 181.0);
+		public String[] coordinateGenerator() {
+			coordinate[0] = Double.toString(ThreadLocalRandom.current().nextDouble(-85.0, 86.0));
+			coordinate[1] = Double.toString(ThreadLocalRandom.current().nextDouble(-180.0, 181.0));
 			
 			return coordinate;
 		}
@@ -74,6 +74,6 @@ public class device{
 		* send GPS coordinate and tagID to the server to update tag found
 		*/
 		public void tagFound() {
-			ser.tagFound(coordinateGenerator(), tag.getTagID());
+			ser.tagFound(tag.getTagID(), coordinateGenerator());
 		}
 }
