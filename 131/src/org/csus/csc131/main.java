@@ -36,7 +36,7 @@ public class main {
 				existingUser = input.nextInt();
 				if(existingUser == 0) {
 					System.out.println("Goodbye! \n");
-					return;
+					return; 
 				}
 				else 
 					continue;
