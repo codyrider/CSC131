@@ -1,11 +1,12 @@
 package org.csus.csc131;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.util.*; 
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+
 import java.lang.String;
 
 //Implement iterator, factory method, observer, singleton
@@ -17,18 +18,17 @@ public class server
     private static final int TAG_ID_IDX = 1;
     private static final int TAG_STATUS_IDX = 2;
     
-    //Create a new list of users to hold data from the database file
-    static List<User> users;
-    
     //This writes data to the database file after the information is edited
-    public static void writeCsvFile()
+    private static void writeCsvFile(ArrayList<User> users)
     {
     	//create a file writer
         FileWriter fileWriter = null;
                  
         try 
         {
-            fileWriter = new FileWriter("");//--------------------------------------------------add file location
+        	File database = new File("database.csv");
+            database.createNewFile();
+            fileWriter = new FileWriter("database.csv");
              
             //Write the list of users to the database file
             for (User user : users) 
@@ -38,11 +38,8 @@ public class server
     	        fileWriter.append(String.valueOf(user.getTagID()));
     	        fileWriter.append(",");
     	        fileWriter.append(String.valueOf(user.getTagStatus()));
-    	        fileWriter.append(",");
+    	        fileWriter.append("\n");
             }
- 
-            System.out.println("Data was successfully written");
-             
         } 
         catch (Exception e) 
         {
@@ -64,21 +61,22 @@ public class server
         }
     }
     
-    public static void readCsvFile() 
+    private static ArrayList<User> readCsvFile() 
     {
     	//Create a new buffered reader
         BufferedReader fileReader = null;
       
+        //Create a new list of users to hold data from the database file
+        List<User> users = new ArrayList<User>();
+        
         try 
         {
-             
-            //Create a new user list to be filled by the database file 
-            users = new ArrayList<User>(); 
-             
             String line = "";
              
             //Create the file reader
-            fileReader = new BufferedReader(new FileReader(""));//---------------------------------Add file location
+            File database = new File("database.csv");
+            database.createNewFile();
+            fileReader = new BufferedReader(new FileReader("database.csv"));
              
             //Read the file line by line
             while ((line = fileReader.readLine()) != null)
@@ -92,12 +90,6 @@ public class server
                     //Add the created user to the users list
                 	users.add(user);
                 }
-            }
-             
-            //Print the updates user list
-            for (User user : users) 
-            {
-                System.out.println(user.toString());
             }
         } 
         catch (Exception e) 
@@ -117,104 +109,117 @@ public class server
                 e.printStackTrace();
             }
         }
- 
+        return (ArrayList<User>) users;
     }
     
     //Adds a tag to a user in the database
 	public static void addTag(int userID, int tagID)
 	{
 		//Read user data in from the database file
-		readCsvFile();
+		ArrayList<User> users = readCsvFile();
 		
 		//Iterate through the user data to find the user ID
-		for (User user : users) 
+		/*
+		ListIterator<User> iterator = users.listIterator();
+		while (iterator.hasNext()) 
         {
 			//If we find the user in the database add the tag ID to the user
+            if(iterator.next().getUserID() == userID)
+            {
+            	iterator.next().setTagID(tagID);
+            }
+        }
+        */
+		
+		for (User user : users) 
+        {
+			//If the user is found get the status of the users tag
             if(user.getUserID() == userID)
             {
             	user.setTagID(tagID);
             }
         }
-        
 		//Write the data to the database file
-        writeCsvFile();
+        writeCsvFile(users);
 	}
 	
 	//Add a new user to the database
 	public void addUser(int userID)
 	{
 		//Read user data in from the database file
-		readCsvFile();
+		ArrayList<User> users = readCsvFile();
 		
 		User user = new User(userID);
         users.add(user);
         
         //Write the data to the database file
-        writeCsvFile();
+        writeCsvFile(users);
 	}
 	
-	public String checkTagStatus(int userID)
+	public String checkTagStatus(int tagID)
 	{
-		String result;
+		String result = "";
 		//Read user data in from the database file
-		readCsvFile();
+		ArrayList<User> users = readCsvFile();
 		
 		//Iterate through users to locate correct user
 		for (User user : users) 
         {
 			//If the user is found get the status of the users tag
-            if(user.getUserID() == userID)
+            if(user.getTagID() == tagID)
             {
             	result = user.getTagStatus();
             }
-            //If the user does not exist return error
             else
-            	result = "User does not exist";
+            	System.out.println("not found");
         }
         
 		//Write the data to the database file
-        writeCsvFile();
-		return null;
+        writeCsvFile(users);
+		return result;
 	}
 	
-	public void setLost(int userID)
+	public void setLost(int tagID)
 	{
 		//Read user data in from the database file
-		readCsvFile();
+		ArrayList<User> users = readCsvFile();
 		
 		//Iterate through users till the correct user is located
 		for (User user : users) 
         {
 			//If the user is found set the tag status to lost
-            if(user.getUserID() == userID)
+            if(user.getTagID() == tagID)
             {
             	user.setLost();
+            	System.out.println("Tag 111 set to lost \n");
             }
         }
         
 		//Write the data to the database file
-        writeCsvFile();
+        writeCsvFile(users);
 	}
 	
 	public void tagFound(int tagID, double[] GPS)
 	{
 		//Read user data in from the database file
-		readCsvFile();
+		ArrayList<User> users = readCsvFile();
 		
 		//Iterate through the user list to find the correct user that is assigned the tagID
 		for (User user : users) 
         {
 			//If a user is located with the tagID, set the tag status to found and notify the user
-            if(user.getTagID() == tagID && user.getTagStatus() == "lost")
+            if(user.getTagID() == tagID && user.getTagStatus().equals("lost"))
             {
             	user.setFound();
             	//Represents the notification of the user until further implementation
-            	System.out.println("Tag " + user.getTagID() + " was found at GPS coordinates: " + GPS);
+            	System.out.println("Tag " + user.getTagID() + " was found at GPS coordinates: " + GPS[0] + "," + GPS[1]);
             }
+            else
+            	System.out.println("not found");
         }
         
 		//Write the data to the database file
-        writeCsvFile();
+        writeCsvFile(users);
 	}
 	
 	public boolean userExists(int userID)
@@ -222,7 +227,7 @@ public class server
 		//Return value for the existence of a user in the database
 		boolean exists = false;
 		//Read user data in from the database file
-		readCsvFile();
+		ArrayList<User> users = readCsvFile();
 		
 		//Iterate through the user list to find the correct user
 		for (User user : users) 
@@ -235,7 +240,7 @@ public class server
         }
         
 		//Write the data to the database file
-        writeCsvFile();
+        writeCsvFile(users);
         
         return exists;
 	}

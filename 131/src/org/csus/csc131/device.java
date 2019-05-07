@@ -11,11 +11,16 @@ import java.lang.String;
 
 public class device{
 	
+	@SuppressWarnings("unused")
 	private int userID;
 	private server ser;
-	private User tag;
 	private double[] coordinate = new double[2];
 	
+		
+	public device()
+	{
+		ser = new server();
+	}	
 	
 		/**
 		* Initializes userID and server
@@ -42,22 +47,22 @@ public class device{
 		* sent tagID and userID to server to add TAG
 		* @param tagID is tagID pass in 
 		*/
-		public void addTag(int tagID){
-			ser.addTag(userID,tagID);
+		public void addTag(int userID, int tagID){
+			server.addTag(userID,tagID);
 		}
 		
 		/**
 		* sent userID to server to check TAG status
 		*/
-		public String checkStatus(){
-			return ser.checkTagStatus(userID);
+		public String checkStatus(int userID, int tagID){
+			return ser.checkTagStatus(tagID);
 		}
 		
 		/**
 		* sent userID to server to set TAG lost
 		*/
-		public void setLost(){
-			ser.setLost(userID);	
+		public void setLost(int tagID){
+			ser.setLost(tagID);	
 		}
 		
 		/**
@@ -76,7 +81,22 @@ public class device{
 		* tag.getTagID() from user class
 		* send GPS coordinate and tagID to the server to update tag found
 		*/
-		public void tagFound() {
-			ser.tagFound(tag.getTagID(), coordinateGenerator());
+		public void tagFound(int tagID) {
+			ser.tagFound(tagID, coordinateGenerator());
+		}
+		
+		//Sends user id to the server to determine if the user exists
+		public boolean logIn(int UID)
+		{
+			if(ser.userExists(UID) == true)
+				return true;
+			else
+				return false;
+		}
+		
+		//sends user id to the server to register user in the database
+		public void createUser(int uid)
+		{
+			ser.addUser(uid);
 		}
 }

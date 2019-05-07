@@ -6,9 +6,8 @@ package org.csus.csc131;
 public class User {
 	
 	private int userID;
-	private int tagID; //should this be a tag class?
+	private int tagID;
 	private String tagStatus;
-	private String userName; //do we need this and userID??
 
 	
 	public User(int userID) {
@@ -33,10 +32,6 @@ public class User {
 		return tagStatus;
 	}
 	
-	public String UserName() {
-		return userName;
-	}
-	
 	public void setLost() {
 		tagStatus = "lost";
 	}	
@@ -47,10 +42,6 @@ public class User {
 	
 	public void setTagID(int tag) {
 		tagID = tag;
-	}
-	
-	public void setUserName(String name) { //need both username and userID?
-		userName = name;
 	}
 	
 	public void setUserID(int id) {
