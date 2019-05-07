@@ -119,7 +119,7 @@ public class server
 		ArrayList<User> users = readCsvFile();
 		
 		//Iterate through the user data to find the user ID
-		/*
+		
 		ListIterator<User> iterator = users.listIterator();
 		while (iterator.hasNext()) 
         {
@@ -129,8 +129,8 @@ public class server
             	iterator.next().setTagID(tagID);
             }
         }
-        */
-		
+        
+        /*
 		for (User user : users) 
         {
 			//If the user is found get the status of the users tag
@@ -139,6 +139,7 @@ public class server
             	user.setTagID(tagID);
             }
         }
+        */
 		//Write the data to the database file
         writeCsvFile(users);
 	}
@@ -163,12 +164,13 @@ public class server
 		ArrayList<User> users = readCsvFile();
 		
 		//Iterate through users to locate correct user
-		for (User user : users) 
+		ListIterator<User> iterator = users.listIterator();
+		while (iterator.hasNext()) 
         {
 			//If the user is found get the status of the users tag
-            if(user.getTagID() == tagID)
+            if(iterator.next().getTagID() == tagID)
             {
-            	result = user.getTagStatus();
+            	result = iterator.next().getTagStatus();
             }
             else
             	System.out.println("not found");
@@ -185,13 +187,14 @@ public class server
 		ArrayList<User> users = readCsvFile();
 		
 		//Iterate through users till the correct user is located
-		for (User user : users) 
+		ListIterator<User> iterator = users.listIterator();
+		while (iterator.hasNext())
         {
 			//If the user is found set the tag status to lost
-            if(user.getTagID() == tagID)
+            if(iterator.next().getTagID() == tagID)
             {
-            	user.setLost();
-            	System.out.println("Tag 111 set to lost \n");
+            	iterator.next().setLost();
+            	System.out.println("Tag " + tagID + " set to lost \n");
             }
         }
         
@@ -205,14 +208,15 @@ public class server
 		ArrayList<User> users = readCsvFile();
 		
 		//Iterate through the user list to find the correct user that is assigned the tagID
-		for (User user : users) 
+		ListIterator<User> iterator = users.listIterator();
+		while (iterator.hasNext())
         {
 			//If a user is located with the tagID, set the tag status to found and notify the user
-            if(user.getTagID() == tagID && user.getTagStatus().equals("lost"))
+            if(iterator.next().getTagID() == tagID && iterator.next().getTagStatus().equals("lost"))
             {
-            	user.setFound();
+            	iterator.next().setFound();
             	//Represents the notification of the user until further implementation
-            	System.out.println("Tag " + user.getTagID() + " was found at GPS coordinates: " + GPS[0] + "," + GPS[1]);
+            	System.out.println("Tag " + iterator.next().getTagID() + " was found at GPS coordinates: " + GPS[0] + "," + GPS[1]);
             }
             else
             	System.out.println("not found");
@@ -230,10 +234,11 @@ public class server
 		ArrayList<User> users = readCsvFile();
 		
 		//Iterate through the user list to find the correct user
-		for (User user : users) 
+		ListIterator<User> iterator = users.listIterator();
+		while (iterator.hasNext()) 
         {
 			//If the user is found in the data base exists becomes true
-            if(user.getUserID() == userID)
+            if(iterator.next().getUserID() == userID)
             {
             	exists = true;
             }
