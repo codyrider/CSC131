@@ -124,9 +124,10 @@ public class server
 		while (iterator.hasNext()) 
         {
 			//If we find the user in the database add the tag ID to the user
-            if(iterator.next().getUserID() == userID)
+			User temp = iterator.next();
+            if(temp.getUserID() == userID)
             {
-            	iterator.next().setTagID(tagID);
+            	temp.setTagID(tagID);
             }
         }
         
@@ -168,9 +169,10 @@ public class server
 		while (iterator.hasNext()) 
         {
 			//If the user is found get the status of the users tag
-            if(iterator.next().getTagID() == tagID)
+			User temp = iterator.next();
+            if(temp.getTagID() == tagID)
             {
-            	result = iterator.next().getTagStatus();
+            	result = temp.getTagStatus();
             }
             else
             	System.out.println("not found");
@@ -191,9 +193,10 @@ public class server
 		while (iterator.hasNext())
         {
 			//If the user is found set the tag status to lost
-            if(iterator.next().getTagID() == tagID)
+			User temp = iterator.next();
+            if(temp.getTagID() == tagID)
             {
-            	iterator.next().setLost();
+            	temp.setLost();
             	System.out.println("Tag " + tagID + " set to lost \n");
             }
         }
@@ -212,11 +215,12 @@ public class server
 		while (iterator.hasNext())
         {
 			//If a user is located with the tagID, set the tag status to found and notify the user
-            if(iterator.next().getTagID() == tagID && iterator.next().getTagStatus().equals("lost"))
+			User temp = iterator.next();
+            if(temp.getTagID() == tagID && temp.getTagStatus().equals("lost"))
             {
-            	iterator.next().setFound();
+            	temp.setFound();
             	//Represents the notification of the user until further implementation
-            	System.out.println("Tag " + iterator.next().getTagID() + " was found at GPS coordinates: " + GPS[0] + "," + GPS[1]);
+            	System.out.println("Tag " + temp.getTagID() + " was found at GPS coordinates: " + GPS[0] + "," + GPS[1]);
             }
             else
             	System.out.println("not found");
@@ -238,7 +242,8 @@ public class server
 		while (iterator.hasNext()) 
         {
 			//If the user is found in the data base exists becomes true
-            if(iterator.next().getUserID() == userID)
+			User temp = iterator.next();
+            if(temp.getUserID() == userID)
             {
             	exists = true;
             }

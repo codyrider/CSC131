@@ -1,5 +1,6 @@
 package org.csus.csc131;
 import java.util.Scanner;
+import java.io.IOException;
 import java.lang.*;
 
 
@@ -11,7 +12,7 @@ public class main {
 	static int tagID;
 	
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 				
 		System.out.println("-------------------------------------------------------");
 		System.out.println("-                   Test Run Program                  -");
@@ -19,7 +20,7 @@ public class main {
 		menu1();
 	}
 		
-	public static void menu1() {
+	public static void menu1() throws IOException {
 		System.out.println("\n\n----------------------------------------------------------------------------------------------------\n");
 		System.out.println("(1) New User (2) Existing User (3)Run from tag (4) Quit \n");
 		System.out.println("Select out of the two options: ");
@@ -49,6 +50,7 @@ public class main {
 			menu2(existingUser);
 			break;
 		case 3:
+			System.out.println(tagID);
 			dev.tagFound(tagID);
 			break;
 		case 4:
@@ -62,32 +64,26 @@ public class main {
 		}		
 	}
 	
-	public static void menu2(int uid) {
+	public static void menu2(int uid) throws IOException {
 		System.out.println("\n\n----------------------------------------------------------------------------------------------------\n");
-		System.out.println("(1) Register an item (2) Report found item (3) Report lost item (4) Check item status\n");
-		System.out.println("(5) Logout (6) Quit\n");
+		System.out.println("(1) Register an item (2) Report lost item (3) Check item status\n");
+		System.out.println("(4) Logout (5) Quit\n");
 		System.out.println("Select out of the six options: ");
 		int menu2 = input.nextInt();
 		switch(menu2) {
 		case 1:
+			tag tag1 = new tag();
+			tagID = tag.getTagID();
+			System.out.println(tagID);
+			
 			System.out.println("Please enter in your item ID: ");
 			tagID = input.nextInt();
 			//device newdev = new device(uid); //create a device object passing in uid to link object to the user
-			dev.addTag(tagID); //add the device via itemID into database linking it to it's owner
+			dev.addTag(uid, tagID); //add the device via itemID into database linking it to it's owner
 			System.out.println("Device successfully added \n");
-			//menu2(uid);
-			break;
-		/*case 2:
-			System.out.println("Please enter in item ID that is found: ");
-			int foundTagID = input.nextInt();
-			device foundDev = new device();
-			double[] gps = {10101,99901};
-			//device class needs to establish a constructor for found device without knowing userID
-			ser.tagFound(foundTagID,gps);
-			System.out.println("Item "+foundTagID+" has been set to found!\n");
 			menu2(uid);
-			break;*/
-		case 3:
+			break;
+		case 2:
 			System.out.println("Please enter in tag ID of your lost item: ");
 			int lostTagID = input.nextInt();
 			//device lostDev = new device();
@@ -95,15 +91,15 @@ public class main {
 			System.out.println("Item "+lostTagID+" has been set to lost.\n");
 			menu2(uid);
 			break;
-		case 4:
-			//User user = new User(uid);
-			System.out.println("Status: "+dev.checkStatus(uid,tagID));
+		case 3:
+			System.out.println("Enter tagID: \n");
+			System.out.println("Status: " + dev.checkStatus(uid,input.nextInt()));
 			menu2(uid);
 			break;
-		case 5:
+		case 4:
 			menu1();
 			break;
-		case 6:
+		case 5:
 			System.out.println("Goodbye! \n");
 			break;
 		default:

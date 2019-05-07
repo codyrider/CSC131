@@ -12,7 +12,7 @@ import java.util.Scanner;
 
 public class tag {
 
-	private int tagID;
+	private static int tagID;
 	
 	/**
 		* Initializes tag class
@@ -27,7 +27,7 @@ public class tag {
 	/**
 		* return tagID;
 	*/
-	public int getTagID()
+	public static int getTagID()
 	{
 		return tagID;
 	}
