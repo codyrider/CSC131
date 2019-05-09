@@ -19,7 +19,7 @@ public class device{
 		
 	public device()
 	{
-		ser = new server();
+		ser = server.getInstance();
 	}	
 	
 		/**

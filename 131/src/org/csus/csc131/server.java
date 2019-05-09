@@ -17,6 +17,14 @@ public class server
 	private static final int USER_ID_IDX = 0;
     private static final int TAG_ID_IDX = 1;
     private static final int TAG_STATUS_IDX = 2;
+    private static final server INSTANCE = new server();
+    
+    private server() {}
+    
+    public static server getInstance()
+    {
+    	return INSTANCE;
+    }
     
     //This writes data to the database file after the information is edited
     private static void writeCsvFile(ArrayList<User> users)
